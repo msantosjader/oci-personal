@@ -1,3 +1,5 @@
+# provider.tf
+
 terraform {
   required_providers {
     oci = {
@@ -11,6 +13,7 @@ provider "oci" {
   region = var.region
 }
 
+# Consulta dinâmica das Zonas de Disponibilidade (ADs).
 data "oci_identity_availability_domains" "test_ads" {
   compartment_id = var.compartment_id
 }
