@@ -1,0 +1,14 @@
+# terraform.tfvars.example
+# Copie este arquivo para 'terraform.tfvars' e preencha com seus dados reais.
+
+# OCI Configs
+region         = "sa-saopaulo-1"
+compartment_id = "ocid1.tenancy.oc1..exemplo"
+ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+# Tailscale
+tailscale_auth_key  = "tskey-auth-COLOQUE_SUA_CHAVE_AQUI"
+
+# Netdata
+netdata_claim_token = "COLOQUE_SEU_TOKEN_AQUI"
+netdata_claim_rooms = "COLOQUE_O_ID_DA_SALA_AQUI"
