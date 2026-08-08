@@ -1,0 +1,14 @@
+# Pastas e arquivos locais do OpenTofu/Terraform
+.terraform/
+.terraform.*
+
+# Arquivos de estado (NUNCA enviar para o GitHub)
+*.tfstate
+*.tfstate.backup
+
+# Arquivos de variáveis com segredos
+*.tfvars
+
+# Arquivo de log de crash
+crash.log
+crash.*.log
