@@ -28,10 +28,13 @@ resource "oci_network_load_balancer_network_load_balancer" "public_lb" {
 # O NLB faz SNAT (source = IP do NLB) e o IP real do cliente vai no
 # cabeçalho PROXY protocol (is_ppv2enabled no listener). Assim o NSG da
 # vm-app pode ficar restrito à subrede do LB.
+# is_preserve_source = false: obrigatório com backend por ip_address (o
+# default da API é true, que só funciona com backend por target_id).
 resource "oci_network_load_balancer_backend_set" "http_backendset" {
   network_load_balancer_id = oci_network_load_balancer_network_load_balancer.public_lb.id
   name                     = "http-caddy"
   policy                   = "FIVE_TUPLE"
+  is_preserve_source       = false
 
   health_checker {
     protocol = "TCP"
@@ -44,6 +47,7 @@ resource "oci_network_load_balancer_backend_set" "https_backendset" {
   network_load_balancer_id = oci_network_load_balancer_network_load_balancer.public_lb.id
   name                     = "https-caddy"
   policy                   = "FIVE_TUPLE"
+  is_preserve_source       = false
 
   health_checker {
     protocol = "TCP"
