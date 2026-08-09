@@ -1,4 +1,4 @@
-k#cloud-config
+#cloud-config
 
 # 1. Atualiza o sistema assim que a máquina ligar
 package_update: true
@@ -7,7 +7,6 @@ package_upgrade: true
 # 2. Garante que pacotes básicos estejam instalados
 packages:
   - curl
-  - wget
   - git
 
 # 3. Comandos que serão executados como root
@@ -15,21 +14,18 @@ runcmd:
   # --- Docker ---
   - echo "Instalando Docker..."
   - curl -fsSL https://get.docker.com | sh
-  # Adiciona o usuário padrão da OCI (ubuntu) ao grupo docker para não precisar usar 'sudo docker'
   - usermod -aG docker ubuntu
 
-  # --- uv (Gerenciador Python da Astral) ---
+  # --- uv ---
   - echo "Instalando uv..."
-  - curl -LsSf https://astral.sh/uv/install.sh | sh
-  - ln -s /root/.cargo/bin/uv /usr/local/bin/uv
-  - ln -s /root/.cargo/bin/uvx /usr/local/bin/uvx
+  - curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="/usr/local/bin" UV_NO_MODIFY_PATH=1 sh
 
   # --- Tailscale ---
   - echo "Instalando e autenticando o Tailscale..."
   - curl -fsSL https://tailscale.com/install.sh | sh
-  - tailscale up --authkey=${tailscale_key} --accept-routes
+  - tailscale up --authkey=${tailscale_auth_key} --accept-routes --auto-update
 
   # --- Netdata ---
   - echo "Instalando e conectando o Netdata Cloud..."
   - curl https://get.netdata.cloud/kickstart.sh > /tmp/netdata-kickstart.sh
-  - sh /tmp/netdata-kickstart.sh --stable-channel --claim-token ${netdata_token} --claim-rooms ${netdata_rooms} --claim-url https://app.netdata.cloud
+  - sh /tmp/netdata-kickstart.sh --stable-channel --claim-token ${netdata_claim_token} --claim-rooms ${netdata_claim_rooms} --claim-url https://app.netdata.cloud
