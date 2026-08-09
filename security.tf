@@ -97,8 +97,11 @@ resource "oci_core_network_security_group_security_rule" "app_rule_80" {
   network_security_group_id = oci_core_network_security_group.app_nsg.id
   direction                 = "INGRESS"
   protocol                  = "6"
-  source                    = "10.0.1.0/24" # Subrede LB
-  source_type               = "CIDR_BLOCK"
+  # O NLB faz SNAT (com is_ppv2enabled no listener) e repassa o IP real do
+  # cliente via PROXY protocol v2. Por isso o tráfego chega na vm-app com
+  # origem da subrede do LB, mantendo o NSG fechado para o resto.
+  source      = "10.0.1.0/24" # Subrede LB
+  source_type = "CIDR_BLOCK"
 
   tcp_options {
     destination_port_range {

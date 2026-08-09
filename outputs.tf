@@ -28,7 +28,21 @@ output "lab_subnet_id" {
 }
 
 # ==========================================
-# 2. OUTPUTS DE COMPUTE (Instâncias e IPs)
+# 2. OUTPUTS DE LOAD BALANCER
+# ==========================================
+
+output "lb_id" {
+  description = "OCID do Network Load Balancer"
+  value       = oci_network_load_balancer_network_load_balancer.public_lb.id
+}
+
+output "lb_public_ip" {
+  description = "IP público do Load Balancer (apontar o DNS para ele)"
+  value       = oci_core_public_ip.lb_public_ip.ip_address
+}
+
+# ==========================================
+# 3. OUTPUTS DE COMPUTE (Instâncias e IPs)
 # ==========================================
 
 output "lab_instance_id" {
