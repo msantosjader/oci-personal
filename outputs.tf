@@ -1,4 +1,6 @@
-# outputs.tf
+# ==========================================
+# 1. OUTPUTS DE REDE (VCN e Subredes)
+# ==========================================
 
 output "vcn_id" {
   description = "OCID da VCN Principal"
@@ -23,4 +25,32 @@ output "data_subnet_id" {
 output "lab_subnet_id" {
   description = "OCID da Subrede de Lab (Privada)"
   value       = oci_core_subnet.lab_subnet.id
+}
+
+# ==========================================
+# 2. OUTPUTS DE COMPUTE (Instâncias e IPs)
+# ==========================================
+
+output "lab_instance_id" {
+  description = "OCID da VM Lab"
+  value       = oci_core_instance.lab_instance.id
+}
+
+output "app_instance_id" {
+  description = "OCID da VM App"
+  value       = oci_core_instance.app_instance.id
+}
+
+output "data_instance_id" {
+  description = "OCID da VM Data"
+  value       = oci_core_instance.data_instance.id
+}
+
+output "instances_private_ips" {
+  description = "IPs privados das VMs na VCN"
+  value = {
+    lab  = oci_core_instance.lab_instance.private_ip
+    app  = oci_core_instance.app_instance.private_ip
+    data = oci_core_instance.data_instance.private_ip
+  }
 }
