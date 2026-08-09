@@ -23,7 +23,8 @@ runcmd:
   # --- Tailscale ---
   - echo "Instalando e autenticando o Tailscale..."
   - curl -fsSL https://tailscale.com/install.sh | sh
-  - tailscale up --authkey=${tailscale_auth_key} --accept-routes --auto-update
+  - tailscale up --authkey=${tailscale_auth_key} --accept-routes
+  - tailscale set --auto-update
 
   # --- Netdata ---
   - echo "Instalando e conectando o Netdata Cloud..."
