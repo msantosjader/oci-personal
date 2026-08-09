@@ -32,7 +32,6 @@ runcmd:
   - sh /tmp/netdata-kickstart.sh --stable-channel --claim-token ${netdata_claim_token} --claim-rooms ${netdata_claim_rooms} --claim-url https://app.netdata.cloud
 
 # 4. Reinicia uma vez apos o primeiro boot para ativar o kernel atualizado
-#    pelo package_upgrade (evita warning de reboot pendente no Netdata)
 power_state:
   mode: reboot
   condition: true
