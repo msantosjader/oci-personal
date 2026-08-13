@@ -23,9 +23,16 @@ runcmd:
   # --- Tailscale ---
   - echo "Instalando e autenticando o Tailscale..."
   - curl -fsSL https://tailscale.com/install.sh | sh
-  - tailscale up --authkey=${tailscale_auth_key} --accept-routes --auto-update
+  - tailscale up --authkey=${tailscale_auth_key} --accept-routes
+  - tailscale set --auto-update
 
   # --- Netdata ---
   - echo "Instalando e conectando o Netdata Cloud..."
   - curl https://get.netdata.cloud/kickstart.sh > /tmp/netdata-kickstart.sh
   - sh /tmp/netdata-kickstart.sh --stable-channel --claim-token ${netdata_claim_token} --claim-rooms ${netdata_claim_rooms} --claim-url https://app.netdata.cloud
+
+# 4. Reinicia uma vez apos o primeiro boot para ativar o kernel atualizado
+power_state:
+  mode: reboot
+  condition: true
+  timeout: 30
