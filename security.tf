@@ -195,8 +195,8 @@ resource "oci_core_network_security_group_security_rule" "data_redis_from_lab" {
   }
 }
 
-# Regras de Ingress - CouchDB (5984)
-resource "oci_core_network_security_group_security_rule" "data_couch_from_app" {
+# Regras de Ingress - Qdrant REST (6333)
+resource "oci_core_network_security_group_security_rule" "data_qdrant_from_app" {
   network_security_group_id = oci_core_network_security_group.data_nsg.id
   direction                 = "INGRESS"
   protocol                  = "6"
@@ -205,13 +205,13 @@ resource "oci_core_network_security_group_security_rule" "data_couch_from_app" {
 
   tcp_options {
     destination_port_range {
-      max = 5984
-      min = 5984
+      max = 6333
+      min = 6333
     }
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "data_couch_from_lab" {
+resource "oci_core_network_security_group_security_rule" "data_qdrant_from_lab" {
   network_security_group_id = oci_core_network_security_group.data_nsg.id
   direction                 = "INGRESS"
   protocol                  = "6"
@@ -220,8 +220,39 @@ resource "oci_core_network_security_group_security_rule" "data_couch_from_lab" {
 
   tcp_options {
     destination_port_range {
-      max = 5984
-      min = 5984
+      max = 6333
+      min = 6333
+    }
+  }
+}
+
+# Regras de Ingress - Qdrant gRPC (6334)
+resource "oci_core_network_security_group_security_rule" "data_qdrant_grpc_from_app" {
+  network_security_group_id = oci_core_network_security_group.data_nsg.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source_type               = "CIDR_BLOCK"
+  source                    = "10.0.2.0/24"
+
+  tcp_options {
+    destination_port_range {
+      max = 6334
+      min = 6334
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "data_qdrant_grpc_from_lab" {
+  network_security_group_id = oci_core_network_security_group.data_nsg.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source_type               = "CIDR_BLOCK"
+  source                    = "10.0.4.0/24"
+
+  tcp_options {
+    destination_port_range {
+      max = 6334
+      min = 6334
     }
   }
 }
@@ -231,4 +262,36 @@ resource "oci_core_network_security_group" "lab_nsg" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.main_vcn.id
   display_name   = "lab-nsg"
+}
+
+# Regras de Ingress - Code-Server (9080) vindo da vm-app
+resource "oci_core_network_security_group_security_rule" "lab_codeserver_from_app" {
+  network_security_group_id = oci_core_network_security_group.lab_nsg.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source_type               = "CIDR_BLOCK"
+  source                    = "10.0.2.141/32" # IP específico da vm-app
+
+  tcp_options {
+    destination_port_range {
+      max = 9080
+      min = 9080
+    }
+  }
+}
+
+# Regras de Ingress - RStudio (8787) vindo da vm-app
+resource "oci_core_network_security_group_security_rule" "lab_rstudio_from_app" {
+  network_security_group_id = oci_core_network_security_group.lab_nsg.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source_type               = "CIDR_BLOCK"
+  source                    = "10.0.2.141/32" # IP específico da vm-app
+
+  tcp_options {
+    destination_port_range {
+      max = 8787
+      min = 8787
+    }
+  }
 }
