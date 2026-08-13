@@ -295,3 +295,35 @@ resource "oci_core_network_security_group_security_rule" "lab_rstudio_from_app" 
     }
   }
 }
+
+# Regras de Ingress - Prefect (4200) vindo da vm-app
+resource "oci_core_network_security_group_security_rule" "lab_prefect_from_app" {
+  network_security_group_id = oci_core_network_security_group.lab_nsg.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source_type               = "CIDR_BLOCK"
+  source                    = "10.0.2.141/32" # IP específico da vm-app
+
+  tcp_options {
+    destination_port_range {
+      max = 4200
+      min = 4200
+    }
+  }
+}
+
+# Regras de Ingress - Metabase (3000) vindo da vm-app
+resource "oci_core_network_security_group_security_rule" "lab_metabase_from_app" {
+  network_security_group_id = oci_core_network_security_group.lab_nsg.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source_type               = "CIDR_BLOCK"
+  source                    = "10.0.2.141/32" # IP específico da vm-app
+
+  tcp_options {
+    destination_port_range {
+      max = 3000
+      min = 3000
+    }
+  }
+}
