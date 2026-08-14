@@ -164,6 +164,21 @@ resource "oci_core_network_security_group_security_rule" "data_pg_from_lab" {
   }
 }
 
+resource "oci_core_network_security_group_security_rule" "data_couchdb_from_app" {
+  network_security_group_id = oci_core_network_security_group.data_nsg.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source_type               = "CIDR_BLOCK"
+  source                    = "10.0.2.0/24"
+
+  tcp_options {
+    destination_port_range {
+      max = 5984
+      min = 5984
+    }
+  }
+}
+
 # Regras de Ingress - Redis (6379)
 resource "oci_core_network_security_group_security_rule" "data_redis_from_app" {
   network_security_group_id = oci_core_network_security_group.data_nsg.id
