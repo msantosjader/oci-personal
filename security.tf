@@ -164,21 +164,6 @@ resource "oci_core_network_security_group_security_rule" "data_pg_from_lab" {
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "data_couchdb_from_app" {
-  network_security_group_id = oci_core_network_security_group.data_nsg.id
-  direction                 = "INGRESS"
-  protocol                  = "6"
-  source_type               = "CIDR_BLOCK"
-  source                    = "10.0.2.0/24"
-
-  tcp_options {
-    destination_port_range {
-      max = 5984
-      min = 5984
-    }
-  }
-}
-
 # Regras de Ingress - Redis (6379)
 resource "oci_core_network_security_group_security_rule" "data_redis_from_app" {
   network_security_group_id = oci_core_network_security_group.data_nsg.id
@@ -206,68 +191,6 @@ resource "oci_core_network_security_group_security_rule" "data_redis_from_lab" {
     destination_port_range {
       max = 6379
       min = 6379
-    }
-  }
-}
-
-# Regras de Ingress - Qdrant REST (6333)
-resource "oci_core_network_security_group_security_rule" "data_qdrant_from_app" {
-  network_security_group_id = oci_core_network_security_group.data_nsg.id
-  direction                 = "INGRESS"
-  protocol                  = "6"
-  source_type               = "CIDR_BLOCK"
-  source                    = "10.0.2.0/24"
-
-  tcp_options {
-    destination_port_range {
-      max = 6333
-      min = 6333
-    }
-  }
-}
-
-resource "oci_core_network_security_group_security_rule" "data_qdrant_from_lab" {
-  network_security_group_id = oci_core_network_security_group.data_nsg.id
-  direction                 = "INGRESS"
-  protocol                  = "6"
-  source_type               = "CIDR_BLOCK"
-  source                    = "10.0.4.0/24"
-
-  tcp_options {
-    destination_port_range {
-      max = 6333
-      min = 6333
-    }
-  }
-}
-
-# Regras de Ingress - Qdrant gRPC (6334)
-resource "oci_core_network_security_group_security_rule" "data_qdrant_grpc_from_app" {
-  network_security_group_id = oci_core_network_security_group.data_nsg.id
-  direction                 = "INGRESS"
-  protocol                  = "6"
-  source_type               = "CIDR_BLOCK"
-  source                    = "10.0.2.0/24"
-
-  tcp_options {
-    destination_port_range {
-      max = 6334
-      min = 6334
-    }
-  }
-}
-
-resource "oci_core_network_security_group_security_rule" "data_qdrant_grpc_from_lab" {
-  network_security_group_id = oci_core_network_security_group.data_nsg.id
-  direction                 = "INGRESS"
-  protocol                  = "6"
-  source_type               = "CIDR_BLOCK"
-  source                    = "10.0.4.0/24"
-
-  tcp_options {
-    destination_port_range {
-      max = 6334
-      min = 6334
     }
   }
 }
