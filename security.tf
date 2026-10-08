@@ -149,6 +149,22 @@ resource "oci_core_network_security_group_security_rule" "data_pg_from_app" {
   }
 }
 
+# Regras de Ingress - PgBouncer (6432)
+resource "oci_core_network_security_group_security_rule" "data_pgbouncer_from_app" {
+  network_security_group_id = oci_core_network_security_group.data_nsg.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source_type               = "CIDR_BLOCK"
+  source                    = "10.0.2.0/24"
+
+  tcp_options {
+    destination_port_range {
+      max = 6432
+      min = 6432
+    }
+  }
+}
+
 resource "oci_core_network_security_group_security_rule" "data_pg_from_lab" {
   network_security_group_id = oci_core_network_security_group.data_nsg.id
   direction                 = "INGRESS"
