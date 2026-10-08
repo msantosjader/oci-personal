@@ -19,6 +19,10 @@ resource "oci_core_instance" "lab_instance" {
   display_name        = "vm-lab"
   shape               = "VM.Standard.A1.Flex"
 
+  lifecycle {
+    ignore_changes = [source_details]
+  }
+
   shape_config {
     ocpus         = 2
     memory_in_gbs = 12
@@ -54,6 +58,10 @@ resource "oci_core_instance" "app_instance" {
   display_name        = "vm-app"
   shape               = "VM.Standard.A1.Flex"
 
+  lifecycle {
+    ignore_changes = [source_details]
+  }
+
   shape_config {
     ocpus         = 1
     memory_in_gbs = 6
@@ -88,6 +96,10 @@ resource "oci_core_instance" "data_instance" {
   availability_domain = data.oci_identity_availability_domains.test_ads.availability_domains[0].name
   display_name        = "vm-data"
   shape               = "VM.Standard.A1.Flex"
+
+  lifecycle {
+    ignore_changes = [source_details]
+  }
 
   shape_config {
     ocpus         = 1
